@@ -1,9 +1,14 @@
-#from www.informit.com/articles/article.aspx?p=2491680
-import spidev
-spi = spidev()
-spi.open(0,0)
-channel = 0
-vRef = 3300
-result = spi.xfer2([1, (8 + channel) << 4, 0])
-adcValue =((result[1] & 3) << 8) + result[2]
-mVolts = round((adcValue*(vRef/1024.0)),2)
+import time
+# Import SPI library (for hardware SPI) and MCP3008 library.
+import Adafruit_GPIO.SPI as SPI
+import Adafruit_MCP3008
+
+SPI_PORT   = 0
+SPI_DEVICE = 0
+mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
+
+while True:
+	value = mcp.read_adc(0)
+	print value
+	# Pause for half a second.
+	time.sleep(0.5)
