@@ -2,9 +2,9 @@
 
 import socket
 
-UDP_IP = "CHANGE TO PI'S IP"
-UDP_Port = 5005
-MESSAGE = "Hello, World!"
+UDP_IP = "155.246.202.131"
+UDP_PORT = 5005
+MESSAGE = "Let there be red light!"
 print "UDP target IP:", UDP_IP
 print "UDP target port:", UDP_PORT
 print "message:", MESSAGE
