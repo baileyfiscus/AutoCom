@@ -4,7 +4,7 @@ import time
 import serial
 import socket
 
-ser = serial.Serial('/dev/ttyUSB0',4800)
+# ser = serial.Serial('/dev/ttyUSB0',4800)
 ser1 = serial.Serial('/dev/ttyS0',115200,timeout = 3)
 LIDAR = ""
 GPS = ""
@@ -12,29 +12,30 @@ MESSAGE = ""
 UDP_IP = "155.246.202.131"
 UDP_PORT = 5005
 
-def read_gps():
-	x = ser.readline()
-	if x[0:7]=='$GPGGA,':
-		time = x[7:17] #time is in Grenwich time (I.E 5 hours ahead of Hoboken)
-        GPS = time
-        return
+# def read_gps():
+#	x = ser.readline()
+#	if x[0:7]=='$GPGGA,':
+#		time = x[7:17] #time is in Grenwich time (I.E 5 hours ahead of Hoboken)
+#        GPS = time
+#        return
 	    #return time
         #ser.close()
 
 def read_lidar():
-    while(ser.in_waiting >= 9):
-        if((b'Y' == ser.read()) and ( b'Y' == ser.read())):
-            Dist_L = ser.read()
-            Dist_H = ser.read()
-            Dist_Total = ((ord(Dist_H) * 256) + (ord(Dist_L))) / 10
-        LIDAR = str(Dist_Total)
-        return
+    Dist_Total = 0
+    while(Dist_Total == 0):
+        while(ser1.in_waiting >= 9):
+            if((b'Y' == ser1.read()) and ( b'Y' == ser1.read())):
+                Dist_L = ser1.read()
+                Dist_H = ser1.read()
+                Dist_Total = ((ord(Dist_H) * 256) + (ord(Dist_L))) / 10
+    return str(Dist_Total)
 	    #print Dist_Total
             #for i in range (0,5):
                 #ser.read()
 while True:
     # read_gps()
-    read_lidar()
+    LIDAR = read_lidar()
     # print "GPS: ", GPS
     print "Lidar: ", LIDAR
     MESSAGE = LIDAR
