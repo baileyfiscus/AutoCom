@@ -40,3 +40,8 @@ while True:
         GPIO.output(YELLOW,False)
         GPIO.output(GREEN,True)
         #time.sleep(1)
+    if (120 < data_int):
+        print "Green"
+        GPIO.output(RED,False)
+        GPIO.output(YELLOW,False)
+        GPIO.output(GREEN,False)
