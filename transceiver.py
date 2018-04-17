@@ -5,16 +5,17 @@ from threading import Thread
 import socket
 import RPi.GPIO as GPIO
 import time
+import serial
 
 ser1 = serial.Serial('/dev/ttyS0',115200,timeout = 3)
 LIDAR = ""
 GPS = ""
 MESSAGE = ""
 UDP_IP_SEND = "155.246.202.120" # This is the IP address of the other pi
-UDP_PORT_SEND = 5006 # This has to match the UDP_PORT_RECEIVE of the other pi
+UDP_PORT_SEND = 5005 # This has to match the UDP_PORT_RECEIVE of the other pi
 
-UDP_IP_RECEIVE = "155.246.202.131" # This is the IP address of this pi
-UDP_PORT_RECEIVE = 5005
+UDP_IP_RECEIVE = "155.246.201.234" # This is the IP address of this pi
+UDP_PORT_RECEIVE = 5006
 sock = socket.socket(socket.AF_INET, # Internet
 socket.SOCK_DGRAM) # UDP
 sock.bind((UDP_IP_RECEIVE, UDP_PORT_RECEIVE))
@@ -37,12 +38,12 @@ def send():
         LIDAR = read_lidar()
         print "Lidar: ", LIDAR
         MESSAGE = LIDAR
-        print "UDP target IP:", UDP_IP
-        print "UDP target port:", UDP_PORT
+        print "UDP target IP:", UDP_IP_SEND
+        print "UDP target port:", UDP_PORT_SEND
         print "message:", MESSAGE
         sock = socket.socket(socket.AF_INET, # Internet
                              socket.SOCK_DGRAM) # UDP
-        sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
+        sock.sendto(MESSAGE, (UDP_IP_SEND, UDP_PORT_SEND))
 
 def receive():
     while True:
