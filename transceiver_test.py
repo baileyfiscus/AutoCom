@@ -22,14 +22,16 @@ def send():
     f.write(", UDP target port:", UDP_PORT)
     f.write(", message:", MESSAGE)
     f.write(", @", time.clock())
+    f.write('\n')
     sock = socket.socket(socket.AF_INET, # Internet
                          socket.SOCK_DGRAM) # UDP
     sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
 
 def receive():
     data, addr = sock.recvfrom(1024) # buffer size is 1024 bytes
-    print "received message:", data
-    data_int = int(data)
+    f.write("received message:", data)
+    f.write(", @", time.clock())
+    f.write('\n')
 
 if __name__ == '__main__':
     f.open('traffic.txt','w')
