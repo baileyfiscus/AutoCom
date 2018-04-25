@@ -35,16 +35,13 @@ def read_lidar():
     return str(Dist_Total)
 
 def send():
-    while True:
-        LIDAR = read_lidar()
-        print "Lidar: ", LIDAR
-        MESSAGE = LIDAR
-        print "UDP target IP:", UDP_IP_SEND
-        print "UDP target port:", UDP_PORT_SEND
-        print "message:", MESSAGE
-        sock = socket.socket(socket.AF_INET, # Internet
+    LIDAR = read_lidar()
+    MESSAGE = LIDAR
+    print "UDP target IP:", UDP_IP_SEND, "UDP target port:", UDP_PORT_SEND, "message:", MESSAGE
+    sendSock = socket.socket(socket.AF_INET, # Internet
                              socket.SOCK_DGRAM) # UDP
-        sock.sendto(MESSAGE, (UDP_IP_SEND, UDP_PORT_SEND))
+    sendSock.setblocking(0)
+    sendSock.sendto(MESSAGE, (UDP_IP_SEND, UDP_PORT_SEND))
 
 def receive():
     try:
