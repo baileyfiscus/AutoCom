@@ -1,11 +1,8 @@
 #Code to receive data over the socket
 
-import threading
-from threading import Thread
 import socket
 import RPi.GPIO as GPIO
 import time
-import csv
 
 MESSAGE = "80085"
 UDP_IP_SEND = "155.246.202.88" # This is the IP address of the other pi
@@ -28,13 +25,13 @@ def send():
     sock.sendto(MESSAGE, (UDP_IP, UDP_PORT))
 
 def receive():
+    socket.setblocking(0)
     data, addr = sock.recvfrom(1024) # buffer size is 1024 bytes
     f.write("received message:", data)
     f.write(", @", time.clock())
     f.write('\n')
 
 if __name__ == '__main__':
-    f.open('traffic.txt','w')
     while True:
         send()
         receive()
